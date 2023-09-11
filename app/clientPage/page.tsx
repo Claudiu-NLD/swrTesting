@@ -43,13 +43,6 @@ export default function ClientPage() {
 
   const sortedGames = _.sortBy(data, (game) => game.created_at, "asc");
 
-  const options = {
-    onSuccess: (data: any, key: string, config: any) =>
-      alert("game created - new ID is " + data.id),
-    onError: (err: string, key: string, config: any) =>
-      alert("error creating game - " + err),
-  };
-
   const handleCreateGame = () => {
     createGame(
       {
@@ -57,7 +50,15 @@ export default function ClientPage() {
         description: description,
         created_at: new Date(),
       },
-      options
+      {
+        async onSuccess(data, key, config) {
+          const newGame = await data;
+          alert("game created - new ID is " + newGame.id);
+        },
+        onError(error, key, config) {
+          alert("error creating game - " + error.message);
+        },
+      }
     );
   };
 

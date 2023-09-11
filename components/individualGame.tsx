@@ -1,6 +1,5 @@
 import { useGame } from "@/hooks/globalMutate/useGame";
 import { useUpdateGameUsingSWRMutationHooks } from "@/hooks/useSWRMutation/useUpdateGameUsingSWRMutationHook";
-import { Game as ImportedGame } from "@/types/supabase";
 
 interface IndividualGameProps {
   gameId: string;
@@ -11,14 +10,10 @@ export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
 
   const {
     data: freshlyUpdateGame,
-    trigger: updateGames,
+    trigger: updateGame,
     isMutating: isUpdatingGame,
     error: errorUpdatingGame,
   } = useUpdateGameUsingSWRMutationHooks(gameId);
-
-  const handleUpdateGame = (arg: ImportedGame) => {
-    updateGames(arg);
-  };
 
   return (
     <div className="flex flex-col gap-2 items-center">
@@ -32,10 +27,14 @@ export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
         className="bg-blue-600 text-white w-[120px] p-2"
         onClick={() => {
           const upercaseTitle = "updated";
-          handleUpdateGame({
-            ...(data as ImportedGame),
-            title: "this new title",
-          });
+          updateGame(
+            { ...data, title: upercaseTitle, description: "updated" },
+            {
+              onSuccess: (data, key, config) => alert("game updated"),
+              onError: (error, key, config) =>
+                alert("error updating game - " + error.message),
+            }
+          );
         }}
       >
         Update game
