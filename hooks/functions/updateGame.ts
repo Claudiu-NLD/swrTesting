@@ -6,7 +6,8 @@ export const updateGame = async (game: Game) => {
     .from("games")
     .update({ ...game })
     .eq("id", game.id)
+    .throwOnError()
     .select()
-    .throwOnError();
-  return data;
+    .maybeSingle();
+  return data as Game;
 };

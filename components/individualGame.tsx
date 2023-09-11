@@ -1,5 +1,5 @@
 import { useGame } from "@/hooks/globalMutate/useGame";
-import { useUpdateGameUsingSWRMutationHooks } from "@/hooks/useSWRMutation/useUpdateGameUsingSWRMutationHook";
+import { useUpdateGame } from "@/hooks/useSWRMutation/games";
 
 interface IndividualGameProps {
   gameId: string;
@@ -13,7 +13,7 @@ export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
     trigger: updateGame,
     isMutating: isUpdatingGame,
     error: errorUpdatingGame,
-  } = useUpdateGameUsingSWRMutationHooks(gameId);
+  } = useUpdateGame({ variables: gameId });
 
   return (
     <div className="flex flex-col gap-2 items-center">

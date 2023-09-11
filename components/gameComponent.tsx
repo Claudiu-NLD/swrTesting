@@ -1,5 +1,4 @@
-import { useDeleteGameUsingSWRMutationHook } from "@/hooks/useSWRMutation/useDeleteGameUsingSWRMutationHook";
-import { useUpdateGameUsingSWRMutationHooks } from "@/hooks/useSWRMutation/useUpdateGameUsingSWRMutationHook";
+import { useDeleteGame, useUpdateGame } from "@/hooks/useSWRMutation/games";
 import { Game } from "@/types/supabase";
 import Link from "next/link";
 
@@ -13,13 +12,13 @@ const GameComponent: React.FC<GameComponentProps> = ({ game }) => {
     trigger: updateGame,
     isMutating: isUpdatingGame,
     error: errorUpdatingGame,
-  } = useUpdateGameUsingSWRMutationHooks(game.id!);
+  } = useUpdateGame({ variables: game.id! });
 
   const {
     trigger: deleteGame,
     error: errorDeleteGame,
     isMutating: isRemovingGame,
-  } = useDeleteGameUsingSWRMutationHook(game.id!);
+  } = useDeleteGame({ variables: game.id! });
 
   return (
     <div

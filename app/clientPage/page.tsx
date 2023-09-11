@@ -1,15 +1,15 @@
 "use client";
 
 import { Game } from "@/types/supabase";
-import { useGames } from "@/hooks/globalMutate/useGames";
+// import { useGames } from "@/hooks/globalMutate/useGames";
 import { useCreateGameUsingGlobalMutate } from "@/hooks/globalMutate/useCreateGameUsingGlobalMutate";
-import { useCreateGameUsingSWRMutationHooks } from "@/hooks/useSWRMutation/useCreateGameUsingSWRMutationHook";
 import { useCreateGameUsingBoundMutate } from "@/hooks/boundMutate/useCreateGameUsingBoundMutate";
 import { useUpdateGameUsingGlobalMutate } from "@/hooks/globalMutate/useUpdateGameUsingGlobalMutate";
 import { useUpdateGameUsingBoundMutate } from "@/hooks/boundMutate/useUpdateGameUsingBoundMutate";
 import { useState } from "react";
 import _ from "lodash";
 import GameComponent from "@/components/gameComponent";
+import { useCreateGame, useGames } from "@/hooks/useSWRMutation/games";
 
 export default function ClientPage() {
   // const fakeGame = {
@@ -21,21 +21,13 @@ export default function ClientPage() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const { data, error } = useGames(); // fetch all games
-  // ---------------------- // using GLOBAL mutate // ------------------------//
-  const { createGameUsingGlobalMutate } = useCreateGameUsingGlobalMutate();
-  const { updateGameUsingGlobalMutate } = useUpdateGameUsingGlobalMutate();
+  const { data, error } = useGames({ variables: {} }); // fetch all games
 
-  // ---------------------- // using BOUND mutate // ------------------------//
-  const { createGameUsingBoundMuate } = useCreateGameUsingBoundMutate();
-  const { updateGameUsingBoundMutate } = useUpdateGameUsingBoundMutate();
-
-  // ---------------------- // using useSWRMutation // ------------------------//
   const {
     trigger: createGame,
     isMutating: isCreatingGame,
     error: sWRMutationError,
-  } = useCreateGameUsingSWRMutationHooks();
+  } = useCreateGame({ variables: null });
 
   if (sWRMutationError) {
     console.log(error, "error");
