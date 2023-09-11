@@ -7,11 +7,8 @@ import { useCreateGameUsingSWRMutationHooks } from "@/hooks/useSWRMutation/useCr
 import { useCreateGameUsingBoundMutate } from "@/hooks/boundMutate/useCreateGameUsingBoundMutate";
 import { useUpdateGameUsingGlobalMutate } from "@/hooks/globalMutate/useUpdateGameUsingGlobalMutate";
 import { useUpdateGameUsingBoundMutate } from "@/hooks/boundMutate/useUpdateGameUsingBoundMutate";
-import { useUpdateGameUsingSWRMutationHooks } from "@/hooks/useSWRMutation/useUpdateGameUsingSWRMutationHook";
-import Link from "next/link";
 import { useState } from "react";
 import _ from "lodash";
-import { useDeleteGameUsingSWRMutationHook } from "@/hooks/useSWRMutation/useDeleteGameUsingSWRMutationHook";
 import GameComponent from "@/components/gameComponent";
 
 export default function ClientPage() {
@@ -35,7 +32,7 @@ export default function ClientPage() {
 
   // ---------------------- // using useSWRMutation // ------------------------//
   const {
-    trigger,
+    trigger: createGame,
     isMutating: isCreatingGame,
     error: sWRMutationError,
   } = useCreateGameUsingSWRMutationHooks();
@@ -46,8 +43,22 @@ export default function ClientPage() {
 
   const sortedGames = _.sortBy(data, (game) => game.created_at, "asc");
 
+  const options = {
+    onSuccess: (data: any, key: string, config: any) =>
+      alert("game created - new ID is " + data.id),
+    onError: (err: string, key: string, config: any) =>
+      alert("error creating game - " + err),
+  };
+
   const handleCreateGame = () => {
-    trigger({ title: title, description: description, created_at: new Date() });
+    createGame(
+      {
+        title: title,
+        description: description,
+        created_at: new Date(),
+      },
+      options
+    );
   };
 
   return (

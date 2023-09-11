@@ -21,6 +21,16 @@ const GameComponent: React.FC<GameComponentProps> = ({ game }) => {
     isMutating: isRemovingGame,
   } = useDeleteGameUsingSWRMutationHook(game.id!);
 
+  const deleteOptions = {
+    onSuccess: () => alert("game deleted"),
+    onError: () => alert("error deleting game"),
+  };
+
+  const updateOptions = {
+    onSuccess: () => alert("game updated"),
+    onError: () => alert("error updating game"),
+  };
+
   return (
     <div
       className="w-[300px] text-center p-2 border-2 m-8 border-black"
@@ -33,7 +43,7 @@ const GameComponent: React.FC<GameComponentProps> = ({ game }) => {
           className="bg-blue-600 text-white w-[120px] p-2"
           onClick={() => {
             const upercaseTitle = "updated";
-            updateGame({ ...game, title: upercaseTitle });
+            updateGame({ ...game, title: upercaseTitle }, updateOptions);
           }}
         >
           Update game
@@ -41,7 +51,7 @@ const GameComponent: React.FC<GameComponentProps> = ({ game }) => {
         <button
           className="bg-red-600 text-white w-[120px] p-2"
           onClick={() => {
-            deleteGame(game);
+            deleteGame(game, deleteOptions);
           }}
         >
           Delete game

@@ -1,6 +1,6 @@
-import { createNewGame } from "../functions/createGame";
-import useSWRMutation from "swr/mutation";
+import { createGame } from "../functions/createGame";
+import { useSWRMutationMultiple } from "../functions/useSWRMutationMultiple";
 
-export const useCreateGameUsingSWRMutationHooks = () => {
-  return useSWRMutation("games", createNewGame);
+export const useCreateGameUsingSWRMutationHooks = (options?: any) => {
+  return useSWRMutationMultiple([`games`], createGame, options);
 };

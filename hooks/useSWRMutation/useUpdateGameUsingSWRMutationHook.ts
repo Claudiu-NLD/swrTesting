@@ -1,6 +1,13 @@
-import useSWRMutation from "swr/mutation";
 import { updateGame } from "../functions/updateGame";
+import { useSWRMutationMultiple } from "../functions/useSWRMutationMultiple";
 
-export const useUpdateGameUsingSWRMutationHooks = (gameId: string) => {
-  return useSWRMutation(["games", `games/${gameId}`], updateGame);
+export const useUpdateGameUsingSWRMutationHooks = (
+  gameId: string,
+  options?: any
+) => {
+  return useSWRMutationMultiple(
+    [`games`, `games/${gameId}`],
+    updateGame,
+    options
+  );
 };
