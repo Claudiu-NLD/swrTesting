@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useState } from "react";
 import _ from "lodash";
 import { useDeleteGameUsingSWRMutationHook } from "@/hooks/useSWRMutation/useDeleteGameUsingSWRMutationHook";
+import GameComponent from "@/components/gameComponent";
 
 export default function ClientPage() {
   // const fakeGame = {
@@ -39,19 +40,6 @@ export default function ClientPage() {
     error: sWRMutationError,
   } = useCreateGameUsingSWRMutationHooks();
 
-  const {
-    data: freshlyUpdateGame,
-    trigger: updateGames,
-    isMutating: isUpdatingGame,
-    error: errorUpdatingGame,
-  } = useUpdateGameUsingSWRMutationHooks();
-
-  const {
-    trigger: deleteGame,
-    error: errorDeleteGame,
-    isMutating: isRemovingGame,
-  } = useDeleteGameUsingSWRMutationHook();
-
   if (sWRMutationError) {
     console.log(error, "error");
   }
@@ -59,21 +47,7 @@ export default function ClientPage() {
   const sortedGames = _.sortBy(data, (game) => game.created_at, "asc");
 
   const handleCreateGame = () => {
-    // createGameUsingGlobalMutate(fakeGame); //using global mutate
-    // createGameUsingBoundMuate(fakeGame); //using bound mutate
-    trigger({ title: title, description: description, created_at: new Date() }); //using useSWRMutation
-  };
-
-  const handleUpdateGame = (arg: Game) => {
-    // updateGameUsingGlobalMutate(arg);
-    // updateGameUsingBoundMutate(arg);
-    updateGames(arg);
-  };
-
-  const handleDeleteGame = (arg: string | undefined) => {
-    if (arg) {
-      deleteGame(arg);
-    }
+    trigger({ title: title, description: description, created_at: new Date() });
   };
 
   return (
@@ -81,36 +55,7 @@ export default function ClientPage() {
       <h1>this is the client side page</h1>{" "}
       {sortedGames &&
         sortedGames.map((game: Game) => (
-          <div
-            className="w-[300px] text-center p-2 border-2 m-8 border-black"
-            key={game.id}
-          >
-            <h1>{game.title}</h1>
-            <p>{game.description}</p>
-            <div className="space-x-2">
-              <button
-                className="bg-blue-600 text-white w-[120px] p-2"
-                onClick={() => {
-                  const upercaseTitle = "updated";
-                  handleUpdateGame({ ...game, title: upercaseTitle });
-                }}
-              >
-                Update game
-              </button>
-              <button
-                className="bg-red-600 text-white w-[120px] p-2"
-                onClick={() => {
-                  const upercaseTitle = "updated";
-                  handleDeleteGame(game.id);
-                }}
-              >
-                Delete game
-              </button>
-            </div>
-            <Link href={`/clientPage/${game.id}`} className="text-blue-500">
-              see this game
-            </Link>
-          </div>
+          <GameComponent key={game.id} game={game} />
         ))}
       <div>
         <div className="flex flex-col gap-4 my-4">

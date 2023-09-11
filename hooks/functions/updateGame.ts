@@ -1,11 +1,11 @@
 import { supabase } from "@/app/providers/supabaseProvider";
 import { Game } from "@/types/supabase";
 
-export const updateGame = async (game: Game) => {
+export const updateGame = async (url: any, { arg }: { arg: Game }) => {
   const { data: updateGame, error: updateGameError } = await supabase
     .from("games")
-    .update({ ...game })
-    .eq("id", game.id)
+    .update({ ...arg })
+    .eq("id", arg.id)
     .select();
   if (updateGameError) {
     console.log(updateGameError.message);

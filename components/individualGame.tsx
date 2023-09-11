@@ -14,7 +14,7 @@ export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
     trigger: updateGames,
     isMutating: isUpdatingGame,
     error: errorUpdatingGame,
-  } = useUpdateGameUsingSWRMutationHooks();
+  } = useUpdateGameUsingSWRMutationHooks(gameId);
 
   const handleUpdateGame = (arg: ImportedGame) => {
     updateGames(arg);
