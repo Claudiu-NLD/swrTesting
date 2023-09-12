@@ -1,3 +1,4 @@
+import { isEmpty, isObject } from "lodash";
 import useSWR, { Fetcher, Key, SWRConfiguration } from "swr";
 
 export type CreateSWROptions<TData, TError, TKey extends Key> = {
@@ -34,7 +35,9 @@ export const createSWR = <
   };
 
   const getKey = (variable: TVariable) => {
-    return [primaryKey, variable] as const;
+    return variable && !(isObject(variable) && isEmpty(variable))
+      ? ([primaryKey, variable] as const)
+      : primaryKey;
   };
 
   const getFetcher = () => {

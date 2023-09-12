@@ -48,7 +48,7 @@ const GameComponent: React.FC<GameComponentProps> = ({ game }) => {
           className="bg-red-600 text-white w-[120px] p-2"
           onClick={() => {
             deleteGame(game, {
-              onSuccess: (data, key, config) => alert("game deleted"),
+              onSuccess: (data, key, config) => console.log("DONE"),
               onError: (error, key, config) =>
                 alert("error deleting game - " + error.message),
             });

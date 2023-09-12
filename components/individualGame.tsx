@@ -1,10 +1,14 @@
 import { useGame, useUpdateGame } from "@/hooks/useSWR/games";
+import { useSWRConfig } from "swr";
 
 interface IndividualGameProps {
   gameId: string;
 }
 
 export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
+  const { cache } = useSWRConfig();
+  console.log("CACHE KEYS", cache.keys());
+
   const { data: game } = useGame({ variables: gameId });
 
   const {
@@ -27,18 +31,18 @@ export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
       <button
         className="bg-blue-600 text-white w-[120px] p-2"
         onClick={() => {
-          const upercaseTitle = "updated";
+          const upercaseTitle = "update";
           updateGame(
             {
               ...game,
               title: upercaseTitle,
-              description: "updated",
+              description: "update",
               created_at: game?.created_at
                 ? new Date(game?.created_at).toISOString()
                 : null,
             },
             {
-              onSuccess: (data, key, config) => alert("game updated"),
+              onSuccess: (data, key, config) => console.log("TEST"),
               onError: (error, key, config) =>
                 alert("error updating game - " + error.message),
             }

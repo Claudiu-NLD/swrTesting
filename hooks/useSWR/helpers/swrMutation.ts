@@ -1,3 +1,4 @@
+import { isEmpty, isObject } from "lodash";
 import { Key } from "swr";
 import useSWRMutation, {
   MutationFetcher,
@@ -35,7 +36,9 @@ export const createSWRMutation = <
   };
 
   const getKey = (variable: TVariable) => {
-    return [primaryKey, variable] as const;
+    return variable && !(isObject(variable) && isEmpty(variable))
+      ? ([primaryKey, variable] as const)
+      : primaryKey;
   };
 
   const getFetcher = () => {

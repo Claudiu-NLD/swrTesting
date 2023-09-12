@@ -11,7 +11,7 @@ export const createSWRUpdateDeleteMutation = <
 ) => {
   return createSWRMutation<RET, string, ARG, Error>({
     primaryKey: primaryKey,
-    fetcher: (key, options) =>
-      swrMutationWrapper(mutatingFn, options.arg, (key) => primaryKey === key),
+    fetcher: (keys, options) =>
+      swrMutationWrapper(mutatingFn, options.arg, (key) => keys.includes(key)),
   });
 };
