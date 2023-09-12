@@ -1,16 +1,12 @@
-import { BareFetcher, SWRConfiguration, SWRResponse } from "swr";
-import { SWRMutationConfiguration, SWRMutationResponse } from "swr/mutation";
+import { BareFetcher, SWRConfiguration } from "swr";
+import { SWRMutationConfiguration } from "swr/mutation";
 
-export type SWRFetchFunction<T> = (
-  ...args: [
-    ...[params?: any],
-    ...[options?: SWRConfiguration<T, any, BareFetcher<T>>]
-  ]
-) => SWRResponse<T, any>;
+export type SWRMutationOptions<T, A> = SWRMutationConfiguration<
+  T,
+  any,
+  string,
+  A,
+  any
+>;
 
-export type SWRMutationFunction<T, A> = (
-  ...args: [
-    ...[params?: any],
-    ...[options?: SWRMutationConfiguration<T, any, string, A, any>]
-  ]
-) => SWRMutationResponse<T, any, string, A>;
+export type SWRFetchOptions<T> = SWRConfiguration<T, any, BareFetcher<T>>;

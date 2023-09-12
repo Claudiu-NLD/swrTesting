@@ -9,7 +9,7 @@ import { createSWRFetchManyQuery } from "./helpers/createSWRFetchManyQuery";
 import { useSWRQuery } from "./useSWRQuery";
 import { useSWRMutationQuery } from "./useSWRMutationQuery";
 import { Game } from "@/types/database";
-import { SWRFetchFunction, SWRMutationFunction } from "@/types/SWRQueryTypes";
+import { SWRFetchOptions, SWRMutationOptions } from "@/types/SWRQueryTypes";
 
 const KEY = "games";
 
@@ -22,30 +22,30 @@ export const useDeleteGame = createSWRUpdateDeleteMutation(KEY, deleteGame);
 export const useTestGames = () => {
   return useSWRQuery(fetchGames, [KEY]);
 };
-export const useTestGame: SWRFetchFunction<Game | null> = (
+
+export const useTestGame = (
   gameId: string,
-  options
+  options?: SWRFetchOptions<Game | null>
 ) => {
   return useSWRQuery(fetchGame, [KEY, `${KEY}/${gameId}`], options);
 };
 
-export const useTestCreateGame: SWRMutationFunction<
-  Game | null,
-  Omit<Game, "id">
-> = (options) => {
+export const useTestCreateGame = (
+  options?: SWRMutationOptions<Game | null, Game>
+) => {
   return useSWRMutationQuery(createGame, [KEY], options);
 };
 
-export const useTestUpdateGame: SWRMutationFunction<Game | null, Game> = (
+export const useTestUpdateGame = (
   gameId: string,
-  options
+  options?: SWRMutationOptions<Game | null, Game>
 ) => {
   return useSWRMutationQuery(updateGame, [KEY, `${KEY}/${gameId}`], options);
 };
 
-export const useTestDeleteGame: SWRMutationFunction<Game | null, Game> = (
+export const useTestDeleteGame = (
   gameId: string,
-  options
+  options?: SWRMutationOptions<Game | null, Game>
 ) => {
   return useSWRMutationQuery(deleteGame, [KEY, `${KEY}/${gameId}`], options);
 };

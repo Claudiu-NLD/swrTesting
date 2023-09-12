@@ -1,8 +1,4 @@
-import {
-  useTestGame,
-  useTestUpdateGame,
-  useUpdateGame,
-} from "@/hooks/useSWR/games";
+import { useTestGame, useTestUpdateGame } from "@/hooks/useSWR/games";
 
 interface IndividualGameProps {
   gameId: string;
@@ -13,7 +9,9 @@ export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
     onSuccess: (data) => console.log(data),
   });
 
-  const { trigger: updateGame } = useTestUpdateGame(gameId);
+  const { trigger: updateGame } = useTestUpdateGame(gameId, {
+    onSuccess: (data) => console.log(data),
+  });
 
   return (
     <div className="flex flex-col gap-2 items-center">
