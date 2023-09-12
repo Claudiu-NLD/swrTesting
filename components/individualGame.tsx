@@ -1,5 +1,4 @@
-import { useGame } from "@/hooks/globalMutate/useGame";
-import { useUpdateGame } from "@/hooks/useSWRMutation/games";
+import { useGame, useUpdateGame } from "@/hooks/useSWR/games";
 
 interface IndividualGameProps {
   gameId: string;

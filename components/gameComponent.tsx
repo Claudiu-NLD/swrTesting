@@ -1,4 +1,4 @@
-import { useDeleteGame, useUpdateGame } from "@/hooks/useSWRMutation/games";
+import { useDeleteGame, useUpdateGame } from "@/hooks/useSWR/games";
 import { Game } from "@/types/supabase";
 import Link from "next/link";
 
