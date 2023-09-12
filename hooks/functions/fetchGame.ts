@@ -1,5 +1,5 @@
 import { supabase } from "@/app/providers/supabaseProvider";
-import { Game } from "@/types/supabase";
+import { Game } from "@/types/database";
 
 export const fetchGame = async (gameId: string) => {
   const { data, error } = await supabase
@@ -10,5 +10,5 @@ export const fetchGame = async (gameId: string) => {
   if (error) {
     console.log(error, "could not fetch this game");
   }
-  return data as Game;
+  return data;
 };

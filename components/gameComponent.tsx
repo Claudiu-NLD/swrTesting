@@ -1,5 +1,5 @@
 import { useDeleteGame, useUpdateGame } from "@/hooks/useSWR/games";
-import { Game } from "@/types/supabase";
+import { Game } from "@/types/database";
 import Link from "next/link";
 
 interface GameComponentProps {

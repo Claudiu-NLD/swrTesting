@@ -1,5 +1,5 @@
 import { supabase } from "@/app/providers/supabaseProvider";
-import { Game } from "@/types/supabase";
+import { Game } from "@/types/database";
 
 export const deleteGame = async (game: Game) => {
   const { data } = await supabase

@@ -5,7 +5,7 @@ interface IndividualGameProps {
 }
 
 export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
-  const { data } = useGame(gameId);
+  const { data: game } = useGame({ variables: gameId });
 
   const {
     data: freshlyUpdateGame,
@@ -14,20 +14,29 @@ export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
     error: errorUpdatingGame,
   } = useUpdateGame({ variables: gameId });
 
+  if (!game?.id) return null;
+
   return (
     <div className="flex flex-col gap-2 items-center">
       <h1>
-        <span className="font-bold">game title :</span> {data?.title}
+        <span className="font-bold">game title :</span> {game?.title}
       </h1>
       <h1>
-        <span className="font-bold">game description:</span> {data?.description}
+        <span className="font-bold">game description:</span> {game?.description}
       </h1>
       <button
         className="bg-blue-600 text-white w-[120px] p-2"
         onClick={() => {
           const upercaseTitle = "updated";
           updateGame(
-            { ...data, title: upercaseTitle, description: "updated" },
+            {
+              ...game,
+              title: upercaseTitle,
+              description: "updated",
+              created_at: game?.created_at
+                ? new Date(game?.created_at).toISOString()
+                : null,
+            },
             {
               onSuccess: (data, key, config) => alert("game updated"),
               onError: (error, key, config) =>

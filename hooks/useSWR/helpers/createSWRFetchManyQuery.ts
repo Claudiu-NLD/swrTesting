@@ -1,8 +1,8 @@
 import { createSWR } from "./swrQuery";
 
 export const createSWRFetchManyQuery = <
-  FUNC extends () => RET,
-  RET = ReturnType<FUNC>
+  FUNC extends () => Promise<RET>,
+  RET = Awaited<ReturnType<FUNC>>
 >(
   primaryKey: string,
   fetchingFn: FUNC

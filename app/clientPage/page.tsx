@@ -1,12 +1,15 @@
 "use client";
 
-import { Game } from "@/types/supabase";
 import _ from "lodash";
 import GameComponent from "@/components/gameComponent";
 import { useCreateGame, useGames } from "@/hooks/useSWR/games";
 import { useState } from "react";
+import { Game } from "@/types/database";
+import { useSWRConfig } from "swr";
 
 export default function ClientPage() {
+  const { cache } = useSWRConfig();
+  console.log("CACHE KEYS", cache.keys());
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
@@ -29,12 +32,12 @@ export default function ClientPage() {
       {
         title: title,
         description: description,
-        created_at: new Date(),
+        created_at: new Date().toISOString(),
       },
       {
         async onSuccess(data, key, config) {
           const newGame = await data;
-          alert("game created - new ID is " + newGame.id);
+          alert("game created - new ID is " + newGame?.id);
         },
         onError(error, key, config) {
           alert("error creating game - " + error.message);

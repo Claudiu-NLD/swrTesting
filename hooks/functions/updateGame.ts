@@ -1,5 +1,5 @@
 import { supabase } from "@/app/providers/supabaseProvider";
-import { Game } from "@/types/supabase";
+import { Game } from "@/types/database";
 
 export const updateGame = async (game: Game) => {
   const { data } = await supabase
@@ -9,5 +9,5 @@ export const updateGame = async (game: Game) => {
     .throwOnError()
     .select()
     .maybeSingle();
-  return data as Game;
+  return data;
 };
