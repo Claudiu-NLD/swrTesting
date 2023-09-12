@@ -7,12 +7,11 @@ export const useSWRQuery = <
 >(
   fetcher: FUNC,
   keys: [string, ...string[]],
-  arg?: Parameters<FUNC>[0],
   options?: SWRConfiguration<RET, any, BareFetcher<RET>>
 ) => {
   return useSWR<RET>(
     keys[0],
-    async () => await swrQueryWrapper(fetcher, arg),
+    async (arg) => await swrQueryWrapper(fetcher, arg),
     options
   );
 };

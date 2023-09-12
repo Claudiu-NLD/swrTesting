@@ -1,5 +1,4 @@
 import {
-  useGame,
   useTestGame,
   useTestUpdateGame,
   useUpdateGame,
@@ -10,8 +9,9 @@ interface IndividualGameProps {
 }
 
 export const IndividualGame: React.FC<IndividualGameProps> = ({ gameId }) => {
-  const { data } = useTestGame(gameId);
-  const game = data?.data;
+  const { data: game } = useTestGame(gameId, {
+    onSuccess: (data) => console.log(data),
+  });
 
   const { trigger: updateGame } = useTestUpdateGame(gameId);
 

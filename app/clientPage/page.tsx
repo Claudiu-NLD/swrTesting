@@ -16,8 +16,7 @@ export default function ClientPage() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const { data, error } = useTestGames(); // fetch all games
-  const games = data?.data;
+  const { data: games, error } = useTestGames();
 
   const {
     trigger: createGame,
@@ -39,9 +38,8 @@ export default function ClientPage() {
         created_at: new Date().toISOString(),
       },
       {
-        async onSuccess({ data }, key, config) {
-          const newGame = await data;
-          alert("game created - new ID is " + newGame?.id);
+        async onSuccess(data, key, config) {
+          alert("game created - new ID is " + data?.id);
         },
         onError(error, key, config) {
           alert("error creating game - " + error.message);
@@ -51,7 +49,7 @@ export default function ClientPage() {
   };
 
   const { data: testGames } = useSWR("test", () => fetchGames(), {
-    onSuccess: ({ data }) => {
+    onSuccess: (data) => {
       data;
     },
   });
@@ -60,11 +58,11 @@ export default function ClientPage() {
     (_, { arg }: { arg: Game }) => deleteGame(arg)
   );
 
-  const { data: test } = useSWRQuery(fetchGames, ["games"], undefined, {
-    onSuccess: ({ data }) => console.log(data),
+  const { data: test } = useSWRQuery(fetchGames, ["games"], {
+    onSuccess: (data) => console.log(data),
   });
   const { trigger } = useSWRMutationQuery(deleteGame, ["test", "testing"], {
-    onSuccess: ({ data }) => console.log(data),
+    onSuccess: (data) => console.log(data),
   });
 
   return (
