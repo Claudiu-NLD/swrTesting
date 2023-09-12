@@ -31,14 +31,14 @@ export const useTestGame = (
 };
 
 export const useTestCreateGame = (
-  options?: SWRMutationOptions<Game | null, Game>
+  options?: SWRMutationOptions<Game | null, Omit<Game, "id">>
 ) => {
   return useSWRMutationQuery(createGame, [KEY], options);
 };
 
 export const useTestUpdateGame = (
   gameId: string,
-  options?: SWRMutationOptions<Game | null, Game>
+  options?: SWRMutationOptions<Game | null, Omit<Game, "id">>
 ) => {
   return useSWRMutationQuery(updateGame, [KEY, `${KEY}/${gameId}`], options);
 };
