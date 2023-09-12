@@ -1,14 +1,9 @@
-import { supabase } from "@/app/providers/supabaseProvider";
-import { Game } from "@/types/supabase";
+import { clientSupabase } from "@/app/providers/clientSupabaseProvider";
 
 export const fetchGame = async (gameId: string) => {
-  const { data, error } = await supabase
+  return clientSupabase
     .from("games")
     .select("*")
     .eq("id", gameId)
     .maybeSingle();
-  if (error) {
-    console.log(error, "could not fetch this game");
-  }
-  return data as Game;
 };

@@ -1,13 +1,12 @@
-import { supabase } from "@/app/providers/supabaseProvider";
-import { Game } from "@/types/supabase";
+import { clientSupabase } from "@/app/providers/clientSupabaseProvider";
+import { Game } from "@/types/database";
 
 export const updateGame = async (game: Game) => {
-  const { data } = await supabase
+  return await clientSupabase
     .from("games")
     .update({ ...game })
     .eq("id", game.id)
     .throwOnError()
     .select()
     .maybeSingle();
-  return data as Game;
 };

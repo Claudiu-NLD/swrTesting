@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import { fetchAllGames } from "../functions/fetchGames";
+import { fetchGames } from "../functions/fetchGames";
 
 export const useGames = () => {
-  return useSWR("games", () => fetchAllGames());
+  return useSWR("games", () => fetchGames());
 };

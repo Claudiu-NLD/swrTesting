@@ -1,40 +1,47 @@
 "use client";
 
-import { Game } from "@/types/supabase";
 import _ from "lodash";
-import GameComponent from "@/components/gameComponent";
-import { useCreateGame, useGames } from "@/hooks/useSWR/games";
+import { useTestCreateGame, useTestGames } from "@/hooks/useSWR/games";
 import { useState } from "react";
+import { deleteGame } from "@/hooks/functions/deleteGame";
+import { fetchGames } from "@/hooks/functions/fetchGames";
+import useSWR from "swr";
+import { useSWRQuery } from "@/hooks/useSWR/useSWRQuery";
+import { useSWRMutationQuery } from "@/hooks/useSWR/useSWRMutationQuery";
+import GameComponent from "@/components/gameComponent";
+import { Game } from "@/types/database";
+import useSWRMutation from "swr/mutation";
 
 export default function ClientPage() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const { data, error } = useGames({ variables: {} }); // fetch all games
+  const { data, error } = useTestGames(); // fetch all games
+  const games = data?.data;
 
   const {
     trigger: createGame,
     isMutating: isCreatingGame,
     error: sWRMutationError,
-  } = useCreateGame({ variables: null });
+  } = useTestCreateGame();
 
   if (sWRMutationError) {
     console.log(error, "error");
   }
 
-  const sortedGames = _.sortBy(data, (game) => game.created_at, "asc");
+  const sortedGames = _.sortBy(games, (game) => game.created_at, "asc");
 
   const handleCreateGame = () => {
     createGame(
       {
         title: title,
         description: description,
-        created_at: new Date(),
+        created_at: new Date().toISOString(),
       },
       {
-        async onSuccess(data, key, config) {
+        async onSuccess({ data }, key, config) {
           const newGame = await data;
-          alert("game created - new ID is " + newGame.id);
+          alert("game created - new ID is " + newGame?.id);
         },
         onError(error, key, config) {
           alert("error creating game - " + error.message);
@@ -42,6 +49,23 @@ export default function ClientPage() {
       }
     );
   };
+
+  const { data: testGames } = useSWR("test", () => fetchGames(), {
+    onSuccess: ({ data }) => {
+      data;
+    },
+  });
+  const { trigger: testingBaseMutation } = useSWRMutation(
+    "test",
+    (_, { arg }: { arg: Game }) => deleteGame(arg)
+  );
+
+  const { data: test } = useSWRQuery(fetchGames, ["games"], undefined, {
+    onSuccess: ({ data }) => console.log(data),
+  });
+  const { trigger } = useSWRMutationQuery(deleteGame, ["test", "testing"], {
+    onSuccess: ({ data }) => console.log(data),
+  });
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

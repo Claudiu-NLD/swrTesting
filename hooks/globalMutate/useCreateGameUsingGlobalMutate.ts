@@ -1,15 +1,15 @@
-import { Game } from "@/types/supabase";
+import { Game } from "@/types/database";
 import { useSWRConfig } from "swr";
-import { createNewGame } from "../functions/createGame";
+import { createGame } from "../functions/createGame";
 
 export const useCreateGameUsingGlobalMutate = () => {
   const { mutate } = useSWRConfig();
+
   const createGameUsingGlobalMutate = async (game: Game) => {
-    const response = await createNewGame(game);
+    const response = await createGame(game);
     console.log("revalidated data using GLOBAL mutate");
     mutate("games");
     return response;
   };
-
   return { createGameUsingGlobalMutate };
 };

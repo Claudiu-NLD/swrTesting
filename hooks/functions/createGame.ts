@@ -1,12 +1,11 @@
-import { supabase } from "@/app/providers/supabaseProvider";
-import { Game } from "@/types/supabase";
+import { clientSupabase } from "@/app/providers/clientSupabaseProvider";
+import { Game } from "@/types/database";
 
-export const createGame = async (game: Game) => {
-  const { data } = await supabase
+export const createGame = async (game: Omit<Game, "id">) => {
+  return clientSupabase
     .from("games")
     .insert(game)
     .throwOnError()
     .select()
     .maybeSingle();
-  return data as Game;
 };
