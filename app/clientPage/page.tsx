@@ -13,7 +13,7 @@ export default function ClientPage() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const { data, error } = useGames({ variables: {} }); // fetch all games
+  const { data, error } = useGames({ variables: null }); // fetch all games
 
   const {
     trigger: createGame,

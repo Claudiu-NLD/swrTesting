@@ -7,7 +7,7 @@ export const createSWRFetchManyQuery = <
   primaryKey: string,
   fetchingFn: FUNC
 ) => {
-  return createSWR<RET, { skip?: number }>({
+  return createSWR<RET, null>({
     primaryKey: primaryKey,
     fetcher: () => fetchingFn(),
   });

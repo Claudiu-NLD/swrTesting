@@ -1,3 +1,4 @@
+import { revalidationFilterFunction } from "./revalidationFilterFunction";
 import { createSWRMutation } from "./swrMutation";
 import { swrMutationWrapper } from "./swrMutationWrapper";
 
@@ -11,16 +12,11 @@ export const createSWRCreateMutation = <
 ) => {
   return createSWRMutation<RET, null, ARG, Error>({
     primaryKey: primaryKey,
-    fetcher: (key, options) =>
-      swrMutationWrapper(mutatingFn, options.arg, (key) => {
-        console.log(
-          `Filter function checking ${primaryKey} against ${JSON.stringify(
-            key,
-            null,
-            2
-          )}`
-        );
-        return key === primaryKey;
-      }),
+    fetcher: (keys, options) =>
+      swrMutationWrapper(
+        mutatingFn,
+        options.arg,
+        revalidationFilterFunction(keys)
+      ),
   });
 };

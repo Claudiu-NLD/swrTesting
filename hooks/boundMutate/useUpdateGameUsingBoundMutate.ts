@@ -1,10 +1,10 @@
+import { Game } from "@/types/database";
 import useSWR from "swr";
-import { Game } from "@/types/supabase";
-import { fetchAllGames } from "../functions/fetchGames";
+import { fetchGames } from "../functions/fetchGames";
 import { updateGame } from "../functions/updateGame";
 
 export const useUpdateGameUsingBoundMutate = () => {
-  const { data, mutate } = useSWR("games", () => fetchAllGames());
+  const { data, mutate } = useSWR("games", () => fetchGames());
 
   const updateGameUsingBoundMutate = async (game: Game) => {
     const gameData = await updateGame(game);

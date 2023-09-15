@@ -1,3 +1,4 @@
+import { revalidationFilterFunction } from "./revalidationFilterFunction";
 import { createSWRMutation } from "./swrMutation";
 import { swrMutationWrapper } from "./swrMutationWrapper";
 
@@ -12,6 +13,10 @@ export const createSWRUpdateDeleteMutation = <
   return createSWRMutation<RET, string, ARG, Error>({
     primaryKey: primaryKey,
     fetcher: (keys, options) =>
-      swrMutationWrapper(mutatingFn, options.arg, (key) => keys.includes(key)),
+      swrMutationWrapper(
+        mutatingFn,
+        options.arg,
+        revalidationFilterFunction(keys)
+      ),
   });
 };

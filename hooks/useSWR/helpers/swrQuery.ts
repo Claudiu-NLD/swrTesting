@@ -35,9 +35,7 @@ export const createSWR = <
   };
 
   const getKey = (variable: TVariable) => {
-    return variable && !(isObject(variable) && isEmpty(variable))
-      ? ([primaryKey, variable] as const)
-      : primaryKey;
+    return [primaryKey, variable] as const;
   };
 
   const getFetcher = () => {
@@ -51,7 +49,10 @@ export const createSWR = <
     return useSWR(
       enabled || enabled === undefined ? getKey(variables) : null,
       getFetcher(),
-      { ...createdOptions, ...hookOptions }
+      {
+        ...createdOptions,
+        ...hookOptions,
+      }
     );
   };
 

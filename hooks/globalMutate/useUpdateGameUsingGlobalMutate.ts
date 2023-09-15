@@ -1,6 +1,6 @@
+import { Game } from "@/types/database";
 import { useSWRConfig } from "swr";
 import { updateGame } from "../functions/updateGame";
-import { Game } from "@/types/supabase";
 
 export const useUpdateGameUsingGlobalMutate = () => {
   const { mutate } = useSWRConfig();
