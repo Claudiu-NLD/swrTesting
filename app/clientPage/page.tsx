@@ -37,8 +37,7 @@ export default function ClientPage() {
       {
         async onSuccess(data, key, config) {
           console.log("KEY", key);
-          const newGame = await data;
-          // alert("game created - new ID is " + newGame?.id);
+          alert("game created - new ID is " + data?.id);
         },
         onError(error, key, config) {
           alert("error creating game - " + error.message);
