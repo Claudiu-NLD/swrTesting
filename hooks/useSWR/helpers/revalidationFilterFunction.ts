@@ -1,15 +1,19 @@
-import { checkKey } from "./checkKey";
-
 export const revalidationFilterFunction = (
   itemKey: [string, any],
-  extraKeys?: string[]
+  extraKeys: string[] = []
 ) => {
+  const primaryKeyCheck = (cacheKey: any) =>
+    itemKey?.[1] &&
+    cacheKey?.[0] === itemKey?.[0] &&
+    (cacheKey?.[1] === null || cacheKey?.[1] === itemKey?.[1]);
+
+  const extraKeyCheck = (cacheKey: any) =>
+    extraKeys.some(
+      (extraKey) =>
+        cacheKey?.[0] === extraKey &&
+        (cacheKey?.[1] === null || cacheKey?.[1] === itemKey?.[1])
+    );
+
   return (cacheKey: any) =>
-    checkKey(cacheKey, itemKey) ||
-    (extraKeys?.some((extraKey) =>
-      [itemKey[1], null].some((key) =>
-        checkKey(cacheKey, [extraKey, key], true)
-      )
-    ) ??
-      false);
+    primaryKeyCheck(cacheKey) || extraKeyCheck(cacheKey);
 };
