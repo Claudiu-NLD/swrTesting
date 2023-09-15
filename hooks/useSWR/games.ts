@@ -10,8 +10,10 @@ import { createSWRFetchManyQuery } from "./helpers/createSWRFetchManyQuery";
 
 const KEY = "games";
 
-export const useGames = createSWRFetchManyQuery(KEY, fetchGames);
+export const useGames = createSWRFetchManyQuery("test", fetchGames);
 export const useGame = createSWRFetchOneQuery(KEY, fetchGame);
 export const useCreateGame = createSWRCreateMutation(KEY, createGame);
 export const useUpdateGame = createSWRUpdateDeleteMutation(KEY, updateGame);
-export const useDeleteGame = createSWRUpdateDeleteMutation(KEY, deleteGame);
+export const useDeleteGame = createSWRUpdateDeleteMutation(KEY, deleteGame, [
+  ["test", null],
+]);

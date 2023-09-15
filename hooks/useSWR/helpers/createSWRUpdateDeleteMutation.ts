@@ -8,7 +8,8 @@ export const createSWRUpdateDeleteMutation = <
   RET = Awaited<ReturnType<FUNC>>
 >(
   primaryKey: string,
-  mutatingFn: FUNC
+  mutatingFn: FUNC,
+  extraKeys?: [string, any][]
 ) => {
   return createSWRMutation<RET, string, ARG, Error>({
     primaryKey: primaryKey,
@@ -16,7 +17,7 @@ export const createSWRUpdateDeleteMutation = <
       swrMutationWrapper(
         mutatingFn,
         options.arg,
-        revalidationFilterFunction(keys)
+        revalidationFilterFunction(keys, extraKeys)
       ),
   });
 };

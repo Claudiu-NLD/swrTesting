@@ -1,6 +1,10 @@
-export const revalidationFilterFunction = (itemKey: [string, any]) => {
+import { checkKey } from "./checkKey";
+
+export const revalidationFilterFunction = (
+  itemKey: [string, any],
+  extraKeys?: [string, any][]
+) => {
   return (cacheKey: any) =>
-    itemKey?.[1] &&
-    cacheKey?.[0] === itemKey?.[0] &&
-    (cacheKey?.[1] === null || cacheKey?.[1] === itemKey?.[1]);
+    checkKey(cacheKey, itemKey) ||
+    (extraKeys?.some((key) => checkKey(cacheKey, key, true)) ?? false);
 };
