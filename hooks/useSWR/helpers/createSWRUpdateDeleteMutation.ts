@@ -9,7 +9,7 @@ export const createSWRUpdateDeleteMutation = <
 >(
   primaryKey: string,
   mutatingFn: FUNC,
-  extraKeys?: [string, any][]
+  extraKeys?: string[]
 ) => {
   return createSWRMutation<RET, string, ARG, Error>({
     primaryKey: primaryKey,

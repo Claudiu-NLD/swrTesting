@@ -9,7 +9,7 @@ export const createSWRCreateMutation = <
 >(
   primaryKey: string,
   mutatingFn: FUNC,
-  extraKeys?: [string, any][]
+  extraKeys?: string[]
 ) => {
   return createSWRMutation<RET, null, ARG, Error>({
     primaryKey: primaryKey,

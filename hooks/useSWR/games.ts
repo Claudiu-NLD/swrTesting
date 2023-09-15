@@ -15,5 +15,5 @@ export const useGame = createSWRFetchOneQuery(KEY, fetchGame);
 export const useCreateGame = createSWRCreateMutation(KEY, createGame);
 export const useUpdateGame = createSWRUpdateDeleteMutation(KEY, updateGame);
 export const useDeleteGame = createSWRUpdateDeleteMutation(KEY, deleteGame, [
-  ["test", null],
+  "test",
 ]);
