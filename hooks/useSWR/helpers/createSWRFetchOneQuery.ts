@@ -1,14 +1,15 @@
 import { createSWR } from "./swrQuery";
 
 export const createSWRFetchOneQuery = <
-  FUNC extends (arg: string) => Promise<RET>,
+  FUNC extends (arg: ARG) => Promise<RET>,
+  ARG = Parameters<FUNC>[0],
   RET = Awaited<ReturnType<FUNC>>
 >(
   primaryKey: string,
   fetchingFn: FUNC
 ) => {
-  return createSWR<RET, string, Error>({
+  return createSWR<RET, ARG, Error>({
     primaryKey: primaryKey,
-    fetcher: (arg: [string, string]) => fetchingFn(arg[1]),
+    fetcher: (arg: [string, ARG]) => fetchingFn(arg[1]),
   });
 };
